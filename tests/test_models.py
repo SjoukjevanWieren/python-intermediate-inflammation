@@ -7,16 +7,54 @@ import numpy.testing as npt
 from inflammation.models import daily_mean, daily_max, daily_min
 
 
+# decorator (@) only works for next function
 @pytest.mark.parametrize(
     "test_input, test_result",
     [
         ([[0, 0], [0, 0], [0, 0]], [0, 0]),
         ([[1, 2], [3, 4], [5, 6]], [3, 4]),
+        (np.zeros([3, 5]), np.zeros(5)),
     ],
 )
 def test_daily_mean(test_input, test_result):
     """Test that mean function works for both zeroes and integers"""
     npt.assert_array_equal(daily_mean(test_input), test_result)
+
+
+@pytest.mark.parametrize(
+    "test_input, test_result",
+    [
+        ([[0, 0], [0, 0], [0, 0]], [0, 0]),
+        ([[1, 2], [3, 4], [5, 6]], [5, 6]),
+    ],
+)
+def test_daily_max(test_input, test_result):
+    """Test that max function works for both zeroes and integers"""
+    npt.assert_array_equal(daily_max(test_input), test_result)
+
+
+def test_daily_min_integers():
+    """Test that daily max function works for an array of possitive integers. ."""
+
+    test_input = np.array([[1, 2], [3, 4], [5, 6]])
+    test_result = np.array([1, 2])
+
+    # Need to use Numpy testing functions to compare arrays
+    npt.assert_array_equal(daily_min(test_input), test_result)
+
+
+def test_daily_mean_string():
+    """Test for TypeError when parsing strings"""
+
+    with pytest.raises(TypeError):
+        error_expected = daily_mean(["Hello", "there"])
+
+
+def test_daily_max_string():
+    """Test for TypeError when parsing strings"""
+
+    with pytest.raises(TypeError):
+        error_expected = daily_max(["Hello", "there"])
 
 
 # def test_daily_mean_zeros():
@@ -39,35 +77,11 @@ def test_daily_mean(test_input, test_result):
 #     npt.assert_array_equal(daily_mean(test_input), test_result)
 
 
-def test_daily_mean_string():
-    """Test for TypeError when parsing strings"""
+# def test_daily_max_integers():
+#     """Test that daily max function works for an array of possitive integers. ."""
 
-    with pytest.raises(TypeError):
-        error_expected = daily_mean(["Hello", "there"])
+#     test_input = np.array([[1, 2], [3, 4], [5, 6]])
+#     test_result = np.array([5, 6])
 
-
-def test_daily_max_string():
-    """Test for TypeError when parsing strings"""
-
-    with pytest.raises(TypeError):
-        error_expected = daily_max(["Hello", "there"])
-
-
-def test_daily_max_integers():
-    """Test that daily max function works for an array of possitive integers. ."""
-
-    test_input = np.array([[1, 2], [3, 4], [5, 6]])
-    test_result = np.array([5, 6])
-
-    # Need to use Numpy testing functions to compare arrays
-    npt.assert_array_equal(daily_max(test_input), test_result)
-
-
-def test_daily_min_integers():
-    """Test that daily max function works for an array of possitive integers. ."""
-
-    test_input = np.array([[1, 2], [3, 4], [5, 6]])
-    test_result = np.array([1, 2])
-
-    # Need to use Numpy testing functions to compare arrays
-    npt.assert_array_equal(daily_min(test_input), test_result)
+#     # Need to use Numpy testing functions to compare arrays
+#     npt.assert_array_equal(daily_max(test_input), test_result)
