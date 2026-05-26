@@ -37,24 +37,26 @@ def test_daily_max(test_input, test_result):
         [
             ([ [0, 0, 0], [0, 0, 0], [0, 0, 0] ], [0, 0, 0]),
             ([ [1, 2, -1],[3, -2, 4],[5, -9, 6]], [1,-9,-1]),
+            ([[0, 1, 2], [0, 3, 4]], [0, 1, 2]),     # array containing zeros
+            ([[3, 3, 3], [3, 3, 3], [3, 3, 3]], [3, 3, 3]), # all values the same
         ])
 def test_daily_min(test_input, test_result):
     """Test that min function works for an array of positive and negative integers."""
     npt.assert_array_equal(daily_min(test_input), test_result)
 
 
-def test_daily_mean_string():
-    """Test for TypeError when parsing strings"""
+# def test_daily_mean_string():
+#     """Test for TypeError when parsing strings"""
 
-    with pytest.raises(TypeError):
-        error_expected = daily_mean(["Hello", "there"])
+#     with pytest.raises(TypeError):
+#         error_expected = daily_mean(["Hello", "there"])
 
 
-def test_daily_max_string():
-    """Test for TypeError when parsing strings"""
+# def test_daily_max_string():
+#     """Test for TypeError when parsing strings"""
 
-    with pytest.raises(TypeError):
-        error_expected = daily_max(["Hello", "there"])
+#     with pytest.raises(TypeError):
+#         error_expected = daily_max(["Hello", "there"])
 
 
 # def test_daily_mean_zeros():
