@@ -2,6 +2,7 @@
 
 from inflammation.models import Patient
 import numpy.testing as npt
+import pytest
 
 def test_create_patient():
 
@@ -26,4 +27,15 @@ def test_compute_bmi():
     bmi = maria.get_body_mass_index()
 
     npt.assert_almost_equal(expected_bmi, bmi)
+
+@pytest.mark.parametrize("name, weight, height, expected", [
+    ("Alice",  80, 1.7,  True),   # BMI ≈ 27.7 → overweight
+    ("Bob",    60, 1.8,  False),  # BMI ≈ 18.5 → not overweight
+    ("Carol",  68, 1.65, False),   # BMI ≈ 25.0 → not overweight (boundary)
+    ("David",  67, 1.65, False),  # BMI ≈ 24.6 → not overweight
+])
+def test_is_overweight(name, weight, height, expected):
+    """Test that is_overweight returns the correct boolean for various BMI values."""
+    patient = Patient(name=name, weight=weight, height=height)
+    assert patient.is_overweight() == expected
 
