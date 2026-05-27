@@ -1,8 +1,9 @@
 """Tests for the Patient model."""
 
-from inflammation.models import Patient
+from inflammation.models import Patient, compute_bmi
 import numpy.testing as npt
 import pytest
+
 
 def test_create_patient():
 
@@ -49,4 +50,15 @@ def test_patient_zero_height():
     """Test that creating a patient with zero height raises ValueError."""
     with pytest.raises(ValueError):
         Patient(name="Invalid", weight=70, height=0)
+
+
+
+@pytest.mark.parametrize("weight, height, expected_bmi", [
+    (70,  1.75, 22.857142857142858),
+    (90,  1.80, 27.777777777777779),
+    (50,  1.60, 19.531250),
+])
+def test_compute_bmi_pure(weight, height, expected_bmi):
+    """Test that compute_bmi returns the correct value for various inputs."""
+    npt.assert_almost_equal(compute_bmi(weight, height), expected_bmi)
 
